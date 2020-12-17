@@ -15,6 +15,7 @@
 #include <avr/sleep.h>
 #include <stdbool.h>
 
+#include "command.h"
 #include "util.h"
 
 // A 1 KiB buffer ought to be enough space for all the command needs.
@@ -48,15 +49,25 @@ int main(void)
         sleep_mode();
         process_keys();
 
-        if (has_command_ready) {
+        if (has_command_ready)
+        {
             printf("\r\n");
             has_command_ready = false;
 
-            // TODO: Deal with the incoming command!
             for (char *arg = command_buffer, *next = NULL; iterate_args(&arg,
-                    &next, command_buffer_end);) {
-                printf("Got argument: |%s|\r\n", arg);
-                arg = next;
+                    &next, command_buffer_end);)
+            {
+                // TODO: Move to proper command.
+                if (strcasecmp(arg, "HELP") == 0)
+                {
+                    printf("Available commands:\r\n");
+                    for (command *cmd = *commands; cmd != NULL; ++cmd)
+                    {
+                        printf("\t%s\t%s\r\n", cmd->name,
+                                cmd->short_help_blurb);
+                    }
+                    break;
+                }
             }
 
             command_buffer_end = &command_buffer[0];
