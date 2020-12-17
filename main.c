@@ -13,6 +13,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <avr/sleep.h>
+#include <stdbool.h>
 
 // A 1 KiB buffer ought to be enough space for all the command needs.
 static volatile char command_buffer[1024] = {'\0'};
@@ -22,6 +23,8 @@ static volatile char *command_buffer_end = &command_buffer[0];
 static volatile char input_buffer[1024] = {'\0'};
 static volatile size_t input_buffer_start = 0;
 static volatile size_t input_buffer_end = 0;
+
+static volatile bool has_command_ready = false;
 
 static void usart0_init(void);
 static int usart0_print_char(char c, FILE *stream);
@@ -35,15 +38,24 @@ int main(void)
 {
     usart0_init();
 
-    print_prompt();
-    
     sei();
     set_sleep_mode(SLPCTRL_SMODE_IDLE_gc);
     while (1)
     {
+        print_prompt();
         sleep_mode();
         process_keys();
-        print_prompt();
+
+        if (has_command_ready) {
+            has_command_ready = false;
+
+            // TODO: Deal with the incoming command!
+
+            command_buffer_end = &command_buffer[0];
+            *command_buffer_end = '\0';
+
+            printf("\r\n");
+        }
     }
 }
 
@@ -89,7 +101,8 @@ static char usart0_read_char(void)
 
 static void print_prompt(void)
 {
-    printf("\r> %s", command_buffer);
+    printf("\r> ");
+    printf("%s", command_buffer);
 }
 
 static void process_keys(void)
@@ -98,12 +111,32 @@ static void process_keys(void)
     {
         char c = input_buffer[input_buffer_start];
 
-        // TODO: deal with Return and backspace.
         switch (c)
         {
+        // Backspace
+        case 0x7F:
+            // Check whether we are already at the beginning of the command
+            // buffer so we don't affect things before it.
+            if (command_buffer_end == command_buffer)
+            {
+                break;
+            }
+
+            // Otherwise, back up with the end of the command,
+            // land remove character.
+            putchar(c);
+            --command_buffer_end;
+            *command_buffer_end = '\0';
+            break;
+        // Newline
+        case 0x0D:
+            has_command_ready = true;
+            break;
         default:
+            // Add character to buffer, and terminate current command string.
             *command_buffer_end = c;
             ++command_buffer_end;
+            *command_buffer_end = '\0';
             break;
         }
 
