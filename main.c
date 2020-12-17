@@ -15,9 +15,11 @@
 #include <avr/sleep.h>
 #include <stdbool.h>
 
+#include "util.h"
+
 // A 1 KiB buffer ought to be enough space for all the command needs.
-static volatile char command_buffer[1024] = {'\0'};
-static volatile char *command_buffer_end = &command_buffer[0];
+static char command_buffer[1024] = {'\0'};
+static char *command_buffer_end = &command_buffer[0];
 
 // A ring-buffer for the incoming characters.
 static volatile char input_buffer[1024] = {'\0'};
@@ -47,14 +49,18 @@ int main(void)
         process_keys();
 
         if (has_command_ready) {
+            printf("\r\n");
             has_command_ready = false;
 
             // TODO: Deal with the incoming command!
+            for (char *arg = command_buffer, *next = NULL; iterate_args(&arg,
+                    &next, command_buffer_end);) {
+                printf("Got argument: |%s|\r\n", arg);
+                arg = next;
+            }
 
             command_buffer_end = &command_buffer[0];
             *command_buffer_end = '\0';
-
-            printf("\r\n");
         }
     }
 }
