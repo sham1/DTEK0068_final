@@ -16,21 +16,34 @@
 
 // A 1 KiB buffer ought to be enough space for all the command needs.
 static volatile char command_buffer[1024] = {'\0'};
+static volatile char *command_buffer_end = &command_buffer[0];
+
+// A ring-buffer for the incoming characters.
+static volatile char input_buffer[1024] = {'\0'};
+static volatile size_t input_buffer_start = 0;
+static volatile size_t input_buffer_end = 0;
 
 static void usart0_init(void);
 static int usart0_print_char(char c, FILE *stream);
 static char usart0_read_char(void);
 
+static void print_prompt(void);
+
+static void process_keys(void);
+
 int main(void)
 {
     usart0_init();
-    printf("Hello, %s\r\n", "World!");
+
+    print_prompt();
     
     sei();
     set_sleep_mode(SLPCTRL_SMODE_IDLE_gc);
     while (1)
     {
         sleep_mode();
+        process_keys();
+        print_prompt();
     }
 }
 
@@ -74,8 +87,34 @@ static char usart0_read_char(void)
     return USART0.RXDATAL;
 }
 
+static void print_prompt(void)
+{
+    printf("\r> %s", command_buffer);
+}
+
+static void process_keys(void)
+{
+    while (input_buffer_start < input_buffer_end)
+    {
+        char c = input_buffer[input_buffer_start];
+
+        // TODO: deal with Return and backspace.
+        switch (c)
+        {
+        default:
+            *command_buffer_end = c;
+            ++command_buffer_end;
+            break;
+        }
+
+        input_buffer_start = (input_buffer_start + 1) % 1024;
+    }
+}
+
 ISR(USART0_RXC_vect)
 {
     char c = usart0_read_char();
-    printf("Got character: %d!\r\n", c);
+    // Store the newest character.
+    input_buffer[input_buffer_end] = c;
+    input_buffer_end = (input_buffer_end + 1) % 1024;
 }
