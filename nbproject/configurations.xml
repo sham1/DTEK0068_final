@@ -12,6 +12,7 @@
       <itemPath>adc-command.h</itemPath>
       <itemPath>temp-command.h</itemPath>
       <itemPath>button-command.h</itemPath>
+      <itemPath>led-command.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -29,6 +30,7 @@
       <itemPath>adc-command.c</itemPath>
       <itemPath>temp-command.c</itemPath>
       <itemPath>button-command.c</itemPath>
+      <itemPath>led-command.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

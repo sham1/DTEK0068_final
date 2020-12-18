@@ -14,6 +14,7 @@
 #include "adc-command.h"
 #include "temp-command.h"
 #include "button-command.h"
+#include "led-command.h"
 
 command *commands[] = {
     &reset_cmd,
@@ -22,6 +23,7 @@ command *commands[] = {
     &vref_cmd,
     &temp_cmd,
     &button_cmd,
+    &led_cmd,
     NULL,
 };
 
