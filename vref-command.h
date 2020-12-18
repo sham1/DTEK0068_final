@@ -14,7 +14,7 @@ extern "C" {
 
 #include "command.h"
     
-extern command vref_cmd;
+extern const command vref_cmd;
 
 #ifdef	__cplusplus
 }

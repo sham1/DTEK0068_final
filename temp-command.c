@@ -15,7 +15,7 @@ static void temp_command_init(void);
 static bool temp_command_execute(char *arglist, const char *arglist_end);
 static void temp_command_print_help_text(void);
 
-command temp_cmd = {
+const command temp_cmd = {
     .name = "TEMP",
     .short_help_blurb = "Displays the internal temperature",
 

@@ -14,7 +14,7 @@ static void reset_command_init(void);
 static bool reset_command_execute(char *arglist, const char *arglist_end);
 static void reset_command_print_help_text(void);
 
-command reset_cmd = {
+const command reset_cmd = {
     .name = "RESET",
     .short_help_blurb = "Reset the microcontroller",
 

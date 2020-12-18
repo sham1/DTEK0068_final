@@ -29,7 +29,7 @@ typedef struct COMMAND {
 bool command_match_name(const command *cmd, const char *name);
 
 // A NULL-pointer terminated list of commands.
-extern command *commands[];
+extern const command *commands[];
 
 #ifdef	__cplusplus
 }

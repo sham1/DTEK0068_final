@@ -16,7 +16,7 @@
 #include "button-command.h"
 #include "led-command.h"
 
-command *commands[] = {
+const command *commands[] = {
     &reset_cmd,
     &help_cmd,
     &adc_cmd,

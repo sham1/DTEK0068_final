@@ -14,7 +14,7 @@ static void adc_command_init(void);
 static bool adc_command_execute(char *arglist, const char *arglist_end);
 static void adc_command_print_help_text(void);
 
-command adc_cmd = {
+const command adc_cmd = {
     .name = "ADC",
     .short_help_blurb = "Reads an analog voltage as digital value",
 

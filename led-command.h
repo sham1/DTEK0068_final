@@ -14,7 +14,7 @@ extern "C" {
 
 #include "command.h"
 
-extern command led_cmd;
+extern const command led_cmd;
 
 #ifdef	__cplusplus
 }

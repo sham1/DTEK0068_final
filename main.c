@@ -61,9 +61,9 @@ int main(void)
             iterate_args(&command_name, &arglist, command_buffer_end);
 
             bool found_command = false;
-            for (command **cmd = commands; *cmd != NULL; ++cmd)
+            for (const command **cmd = commands; *cmd != NULL; ++cmd)
             {
-                command *c = *cmd;
+                const command *c = *cmd;
                 if (command_match_name(c, command_name))
                 {
                     found_command = true;
@@ -87,7 +87,7 @@ int main(void)
 
 static void init_commands(void)
 {
-    for (command **cmd = commands; *cmd != NULL; ++cmd)
+    for (const command **cmd = commands; *cmd != NULL; ++cmd)
     {
         (*cmd)->init();
     }

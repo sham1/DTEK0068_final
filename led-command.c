@@ -19,7 +19,7 @@ static void led_command_init(void);
 static bool led_command_execute(char *arglist, const char *arglist_end);
 static void led_command_print_help_text(void);
 
-command led_cmd = {
+const command led_cmd = {
     .name = "LED",
     .short_help_blurb = "Displays and configures the LED",
 

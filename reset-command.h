@@ -14,7 +14,7 @@ extern "C" {
 
 #include "command.h"
     
-extern command reset_cmd;
+extern const command reset_cmd;
 
 #ifdef	__cplusplus
 }

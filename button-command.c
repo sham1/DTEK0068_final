@@ -14,7 +14,7 @@ static void button_command_init(void);
 static bool button_command_execute(char *arglist, const char *arglist_end);
 static void button_command_print_help_text(void);
 
-command button_cmd = {
+const command button_cmd = {
     .name = "BUTTON",
     .short_help_blurb = "Displays configures the push button",
 

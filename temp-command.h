@@ -13,7 +13,7 @@ extern "C" {
 #endif
 
 #include "command.h"
-extern command temp_cmd;
+extern const command temp_cmd;
 
 #ifdef	__cplusplus
 }

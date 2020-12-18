@@ -15,7 +15,7 @@ static void vref_command_init(void);
 static bool vref_command_execute(char *arglist, const char *arglist_end);
 static void vref_command_print_help_text(void);
 
-command vref_cmd = {
+const command vref_cmd = {
     .name = "VREF",
     .short_help_blurb = "Displays and sets the reference voltage",
 

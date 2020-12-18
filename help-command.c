@@ -12,7 +12,7 @@ static void help_command_init(void);
 static bool help_command_execute(char *arglist, const char *arglist_end);
 static void help_command_print_help_text(void);
 
-command help_cmd = {
+const command help_cmd = {
     .name = "HELP",
     .short_help_blurb = "Displays help for commands",
 
@@ -31,9 +31,9 @@ static bool help_command_execute(char *arglist, const char *arglist_end)
     // If we got arguments, let's check if they match a command
     if (iterate_args(&arg, &arglist, arglist_end)) {
         bool found_command = false;
-        for (command **cmd = commands; *cmd != NULL; ++cmd) {
+        for (const command **cmd = commands; *cmd != NULL; ++cmd) {
             if (command_match_name(*cmd, arg)) {
-                command *c = *cmd;
+                const command *c = *cmd;
                 printf("Available %s commands:\r\n", c->name);
 
                 c->print_help_text();
@@ -50,8 +50,8 @@ static bool help_command_execute(char *arglist, const char *arglist_end)
         return found_command;
     } else {
         printf("Available commands:\r\n");
-        for (command **cmd = commands; *cmd != NULL; ++cmd) {
-            command *c = *cmd;
+        for (const command **cmd = commands; *cmd != NULL; ++cmd) {
+            const command *c = *cmd;
             printf("\t%s\t%s\r\n", c->name, c->short_help_blurb);
         }
     }

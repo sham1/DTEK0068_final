@@ -14,7 +14,7 @@ extern "C" {
 
 #include "command.h"
 
-extern command help_cmd;
+extern const command help_cmd;
 
 #ifdef	__cplusplus
 }
