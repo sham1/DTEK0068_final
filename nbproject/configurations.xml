@@ -11,6 +11,7 @@
       <itemPath>vref-command.h</itemPath>
       <itemPath>adc-command.h</itemPath>
       <itemPath>temp-command.h</itemPath>
+      <itemPath>button-command.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -27,6 +28,7 @@
       <itemPath>vref-command.c</itemPath>
       <itemPath>adc-command.c</itemPath>
       <itemPath>temp-command.c</itemPath>
+      <itemPath>button-command.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
