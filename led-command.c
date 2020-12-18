@@ -30,6 +30,7 @@ const command led_cmd = {
 
 static void init_timer(void);
 
+static bool is_on = false;
 static volatile bool is_blinking = false;
 static volatile uint8_t duty_on = 0;
 
@@ -122,6 +123,15 @@ static bool led_command_execute(char *arglist, const char *arglist_end)
     }
     else
     {
+        printf("PWM enabled: %s\r\n", is_blinking ? "YES" : "NO");
+        if (is_blinking)
+        {
+            printf("Duty cycle: %"PRIu8"\r\n", duty_on);
+        }
+        else
+        {
+            printf("Is on: %s\r\n", is_on ? "YES" : "NO");
+        }
     }
     return true;
 }
@@ -144,6 +154,8 @@ static void set_led(bool on)
     {
         PORTF.OUTSET = PIN5_bm;
     }
+
+    is_on = on;
 }
 
 static void init_timer(void)
@@ -153,8 +165,12 @@ static void init_timer(void)
     // Set as normal mode
     TCA0.SINGLE.EVCTRL &= ~TCA_SINGLE_CNTEI_bm;
 
-    // Disable event counting
-    TCA0.SINGLE.PER = 0x0CB6;
+    // Set the duty cycle as to make the blinking somewhat useful for dimming.
+    //
+    // TODO: Figure out how to use TCA's PWM generation for this, while
+    // allowing for the easy turning on and off of the signal, and modifying
+    // of the duty cycle.
+    TCA0.SINGLE.PER = 0x0000;
 
     // Enable timer and set clock source to be system/256
     TCA0.SINGLE.CTRLA = TCA_SINGLE_CLKSEL_DIV256_gc | TCA_SINGLE_ENABLE_bm;
