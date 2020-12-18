@@ -22,7 +22,7 @@ typedef struct COMMAND {
     const char *short_help_blurb;
     
     void (*init)(void);
-    bool (*execute)(char *arglist);
+    bool (*execute)(char *arglist, const char *arglist_end);
     void (*print_help_text)(void);
 } command;
 

@@ -74,7 +74,7 @@ int main(void)
                     {
                         if (command_match_name(*cmd, arg))
                         {
-                            (*cmd)->execute(next);
+                            (*cmd)->execute(next, command_buffer_end);
                             break;
                         }
                     }

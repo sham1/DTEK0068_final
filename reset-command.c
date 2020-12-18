@@ -10,9 +10,9 @@
 #include <avr/io.h>
 #include <avr/wdt.h>
 
-void reset_command_init(void);
-bool reset_command_execute(char *arglist);
-void reset_command_print_help_text(void);
+static void reset_command_init(void);
+static bool reset_command_execute(char *arglist, const char *arglist_end);
+static void reset_command_print_help_text(void);
 
 command reset_cmd = {
     .name = "RESET",
@@ -36,9 +36,10 @@ void reset_command_init(void)
     // All the necessary stuff is done in wdt_init.
 }
 
-bool reset_command_execute(char *arglist)
+bool reset_command_execute(char *arglist, const char *arglist_end)
 {
     (void) arglist;
+    (void) arglist_end;
 
     // TODO: Figure out why this isn't resetting!!
     wdt_enable(WDTO_15MS);
