@@ -12,12 +12,14 @@
 #include "help-command.h"
 #include "vref-command.h"
 #include "adc-command.h"
+#include "temp-command.h"
 
 command *commands[] = {
     &reset_cmd,
     &help_cmd,
     &adc_cmd,
     &vref_cmd,
+    &temp_cmd,
     NULL,
 };
 
