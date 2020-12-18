@@ -56,30 +56,27 @@ int main(void)
             printf("\r\n");
             has_command_ready = false;
 
-            for (char *arg = command_buffer, *next = NULL; iterate_args(&arg,
-                    &next, command_buffer_end);)
+            char *command_name = command_buffer;
+            char *arglist = NULL;
+            iterate_args(&command_name, &arglist, command_buffer_end);
+
+            bool found_command = false;
+            for (command **cmd = commands; *cmd != NULL; ++cmd)
             {
-                // TODO: Move to proper command.
-                if (strcasecmp(arg, "HELP") == 0)
+                command *c = *cmd;
+                if (command_match_name(c, command_name))
                 {
-                    printf("Available commands:\r\n");
-                    for (command **cmd = commands; *cmd != NULL; ++cmd)
-                    {
-                        printf("\t%s\t%s\r\n", (*cmd)->name,
-                                (*cmd)->short_help_blurb);
-                    }
+                    found_command = true;
+
+                    bool success = c->execute(arglist, command_buffer_end);
+                    printf("%s\r\n", success ? "OK" : "ERROR");
+
                     break;
-                } else {
-                    for (command **cmd = commands; *cmd != NULL; ++cmd)
-                    {
-                        if (command_match_name(*cmd, arg))
-                        {
-                            (*cmd)->execute(next, command_buffer_end);
-                            break;
-                        }
-                    }
                 }
-                break;
+            }
+
+            if (!found_command) {
+                printf("No such command: %s\r\n", command_name);
             }
 
             command_buffer_end = &command_buffer[0];

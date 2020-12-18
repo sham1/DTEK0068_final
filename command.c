@@ -9,9 +9,11 @@
 #include <string.h>
 
 #include "reset-command.h"
+#include "help-command.h"
 
 command *commands[] = {
     &reset_cmd,
+    &help_cmd,
     NULL,
 };
 
