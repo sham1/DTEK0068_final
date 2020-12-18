@@ -29,6 +29,8 @@ static volatile size_t input_buffer_end = 0;
 
 static volatile bool has_command_ready = false;
 
+static bool command_buffer_updated = true;
+
 static void usart0_init(void);
 static int usart0_print_char(char c, FILE *stream);
 static char usart0_read_char(void);
@@ -135,8 +137,12 @@ static char usart0_read_char(void)
 
 static void print_prompt(void)
 {
-    printf("\r> ");
-    printf("%s", command_buffer);
+    if (command_buffer_updated)
+    {
+        printf("\r> ");
+        printf("%s", command_buffer);
+        command_buffer_updated = false;
+    }
 }
 
 static void process_keys(void)
@@ -175,6 +181,7 @@ static void process_keys(void)
         }
 
         input_buffer_start = (input_buffer_start + 1) % 1024;
+        command_buffer_updated = true;
     }
 }
 
