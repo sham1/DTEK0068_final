@@ -10,10 +10,14 @@
 
 #include "reset-command.h"
 #include "help-command.h"
+#include "vref-command.h"
+#include "adc-command.h"
 
 command *commands[] = {
     &reset_cmd,
     &help_cmd,
+    &adc_cmd,
+    &vref_cmd,
     NULL,
 };
 

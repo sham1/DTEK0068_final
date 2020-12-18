@@ -36,6 +36,8 @@ const char *iterate_args(char **pos,
         char **next_pos,
         const char *arg_list_end);
 
+#define ARRAY_LEN(arr) ((sizeof(arr))/(sizeof(*(arr))))
+
 #ifdef	__cplusplus
 }
 #endif

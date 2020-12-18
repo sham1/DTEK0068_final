@@ -8,6 +8,8 @@
       <itemPath>command.h</itemPath>
       <itemPath>reset-command.h</itemPath>
       <itemPath>help-command.h</itemPath>
+      <itemPath>vref-command.h</itemPath>
+      <itemPath>adc-command.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -21,6 +23,8 @@
       <itemPath>command.c</itemPath>
       <itemPath>reset-command.c</itemPath>
       <itemPath>help-command.c</itemPath>
+      <itemPath>vref-command.c</itemPath>
+      <itemPath>adc-command.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
