@@ -8,7 +8,10 @@
 #include "command.h"
 #include <string.h>
 
+#include "reset-command.h"
+
 command *commands[] = {
+    &reset_cmd,
     NULL,
 };
 

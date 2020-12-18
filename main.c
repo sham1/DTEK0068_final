@@ -37,10 +37,12 @@ static void print_prompt(void);
 
 static void process_keys(void);
 
+static void init_commands(void);
+
 int main(void)
 {
     usart0_init();
-
+    init_commands();
     sei();
     set_sleep_mode(SLPCTRL_SMODE_IDLE_gc);
     while (1)
@@ -61,18 +63,36 @@ int main(void)
                 if (strcasecmp(arg, "HELP") == 0)
                 {
                     printf("Available commands:\r\n");
-                    for (command *cmd = *commands; cmd != NULL; ++cmd)
+                    for (command **cmd = commands; *cmd != NULL; ++cmd)
                     {
-                        printf("\t%s\t%s\r\n", cmd->name,
-                                cmd->short_help_blurb);
+                        printf("\t%s\t%s\r\n", (*cmd)->name,
+                                (*cmd)->short_help_blurb);
                     }
                     break;
+                } else {
+                    for (command **cmd = commands; *cmd != NULL; ++cmd)
+                    {
+                        if (command_match_name(*cmd, arg))
+                        {
+                            (*cmd)->execute(next);
+                            break;
+                        }
+                    }
                 }
+                break;
             }
 
             command_buffer_end = &command_buffer[0];
             *command_buffer_end = '\0';
         }
+    }
+}
+
+static void init_commands(void)
+{
+    for (command **cmd = commands; *cmd != NULL; ++cmd)
+    {
+        (*cmd)->init();
     }
 }
 
